@@ -6,14 +6,17 @@ import dealerShape from '../operations/dealer-shape'
 import { DealersContext } from './dealers-context'
 
 function DealerList({ dealers }) {
-  const { selectedDealer, setSelectedDealer } = useContext(DealersContext)
+  const {
+    state: { selectedDealer },
+    dispatch,
+  } = useContext(DealersContext)
 
   return (
     <Box overflow="auto">
       <List>
         {dealers.map((dealer) => (
           <ListItem
-            onClick={() => setSelectedDealer(dealer)}
+            onClick={() => dispatch({ type: 'setSelected', payload: dealer })}
             key={dealer.id}
             selected={selectedDealer && selectedDealer.id === dealer.id}
           >

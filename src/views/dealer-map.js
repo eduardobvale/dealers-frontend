@@ -6,14 +6,12 @@ import dealerShape from '../operations/dealer-shape'
 import { DealersContext } from './dealers-context'
 
 function CustomMarker({ dealer }) {
-  console.log('marker')
-
-  const { setSelectedDealer } = useContext(DealersContext)
+  const { dispatch } = useContext(DealersContext)
 
   const eventHandlers = useMemo(
     () => ({
       click() {
-        setSelectedDealer(dealer)
+        dispatch({ type: 'setSelected', payload: dealer })
       },
     }),
     [],
@@ -34,7 +32,9 @@ CustomMarker.propTypes = {
 
 function MapCentralizer() {
   const map = useMap()
-  const { selectedDealer } = useContext(DealersContext)
+  const {
+    state: { selectedDealer },
+  } = useContext(DealersContext)
 
   useEffect(() => {
     if (selectedDealer) {
@@ -46,7 +46,6 @@ function MapCentralizer() {
 }
 
 function DealerMap({ dealers }) {
-  console.log('map')
   return (
     <MapContainer
       center={[0, 0]}
@@ -59,7 +58,7 @@ function DealerMap({ dealers }) {
       />
       <MapCentralizer />
       {dealers.map((dealer) => (
-        <CustomMarker dealer={dealer} />
+        <CustomMarker key={dealer.id} dealer={dealer} />
       ))}
     </MapContainer>
   )
