@@ -1,11 +1,11 @@
 import React from 'react'
-import DealerPage from './views/dealer-page'
 import { DealersProvider } from './views/dealers-context'
+import DealersPage from './views/dealers-page'
 
 function App() {
   return (
     <DealersProvider>
-      <DealerPage />
+      <DealersPage />
     </DealersProvider>
   )
 }

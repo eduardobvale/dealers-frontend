@@ -5,16 +5,14 @@ import { MapContainer, TileLayer, Marker, useMap } from 'react-leaflet'
 import dealerShape from '../operations/dealer-shape'
 import { DealersContext } from './dealers-context'
 
-function CustomMarker({ dealer }) {
-  const { dispatch } = useContext(DealersContext)
-
+const CustomMarker = React.memo(({ dealer, dispatch }) => {
   const eventHandlers = useMemo(
     () => ({
       click() {
         dispatch({ type: 'setSelected', payload: dealer })
       },
     }),
-    [],
+    [dispatch],
   )
 
   return (
@@ -24,10 +22,11 @@ function CustomMarker({ dealer }) {
       position={[dealer.latitude, dealer.longitude]}
     />
   )
-}
+})
 
 CustomMarker.propTypes = {
   dealer: dealerShape,
+  dispatch: PropTypes.func.isRequired,
 }
 
 function MapCentralizer() {
@@ -46,6 +45,7 @@ function MapCentralizer() {
 }
 
 function DealerMap({ dealers }) {
+  const { dispatch } = useContext(DealersContext)
   return (
     <MapContainer
       center={[0, 0]}
@@ -58,7 +58,7 @@ function DealerMap({ dealers }) {
       />
       <MapCentralizer />
       {dealers.map((dealer) => (
-        <CustomMarker key={dealer.id} dealer={dealer} />
+        <CustomMarker dispatch={dispatch} key={dealer.id} dealer={dealer} />
       ))}
     </MapContainer>
   )

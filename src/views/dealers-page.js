@@ -4,11 +4,8 @@ import DealerMap from './dealer-map'
 import DealerList from './dealer-list'
 import apiClient from '../operations/api-client'
 
-function DealerPage() {
-  const [dealers, setDealers] = useState([
-    { id: 1, latitude: '0', longitude: '0', name: 'edu' },
-    { id: 2, latitude: '0.5', longitude: '0.5', name: 'ardo' },
-  ])
+function DealersPage() {
+  const [dealers, setDealers] = useState([])
 
   const fetchDealers = async () => {
     const api = apiClient()
@@ -31,4 +28,4 @@ function DealerPage() {
   )
 }
 
-export default DealerPage
+export default DealersPage

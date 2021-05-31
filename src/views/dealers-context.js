@@ -1,4 +1,4 @@
-import React, { createContext, useReducer } from 'react'
+import React, { createContext, useCallback, useReducer } from 'react'
 import PropTypes from 'prop-types'
 
 export const DealersContext = createContext()
@@ -13,9 +13,11 @@ function reducer(state, action) {
 }
 export function DealersProvider({ children }) {
   const [state, dispatch] = useReducer(reducer, { selectedDealer: null })
-
+  const dispatchThatNeverChanges = useCallback(dispatch, [])
   return (
-    <DealersContext.Provider value={{ state, dispatch }}>
+    <DealersContext.Provider
+      value={{ state, dispatch: dispatchThatNeverChanges }}
+    >
       {children}
     </DealersContext.Provider>
   )
